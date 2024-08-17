@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/top.css' %}">
+{% endblock %}
+{% block title %}
+    <title>SoftNest トップページ</title>
+{% endblock %}
+{% block content %}
+    <section class="slider_section">
+        <div class="slider">
+            <div><img src="{% static 'images/slick/1.jpg' %}" alt="Slide 1"></div>
+            <div><img src="{% static 'images/slick/2.jpg' %}" alt="Slide 2"></div>
+            <div><img src="{% static 'images/slick/1.jpg' %}" alt="Slide 3"></div>
+        </div> 
+        <div class="catchphrase">
+            <p>A relaxing step towards</p>
+            <p>a comfortable everyday life</p>
+        </div>       
+    </section>
+    <section class="product_section">
+        <h1>New Product</h1>
+        <div class="row">
+            <div class="product">
+                <div class="img">
+                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="img">
+                    <img src="" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="img">
+                    <img src="" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="img">
+                    <img src="" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </div>
+        </div>
+        <button><a href="">Show more</a></button>
+    </section>
+    <section class="category">
+        <h1>Category</h1>
+        <div class="all">
+            <a href="">
+                <img src="{% static 'images/category/all.jpg' %}" alt="">
+                <p>All Product</p>
+            </a>
+        </div>
+        <div class="category2">
+            <div class="">
+                <a href="">
+                    <img src="{% static 'images/category/muzi.webp' %}" alt="">
+                    <p>Plain color</p>
+                </a>
+            </div>
+            <div class="">
+                <a href="">
+                    <img src="{% static 'images/category/patterned.webp' %}" alt="">
+                    <p>patterned</p>
+                </a>
+            </div>
+            <div class="">
+                <a href="">
+                    <img src="{% static 'images/category/char2.webp' %}" alt="">
+                    <p>character</p>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
