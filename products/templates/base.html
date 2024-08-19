@@ -17,14 +17,15 @@
 <body>
     <header>
         <div class="logo">
-            <h1>SoftNest</h1>
+            <h1><a href="/">SoftNest</a></h1>
         </div>
         <nav>
-            <p>Product</p>
+            <p><a href="/product/">Product</a></p>
             <p>About</p>
             <p><i class="fa-solid fa-magnifying-glass"></i></p>
             <p><i class="fa-solid fa-cart-shopping"></i></p>
             <p><i class="fa-solid fa-right-to-bracket"></i></p>
+            <p><i class="fa-solid fa-bars"></i></p>
         </nav>
     </header>
     {% block content %}
@@ -32,8 +33,9 @@
     <footer>
         
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="{% static 'js/slick.js' %}"></script>
+    {% block javascript %}
+
+    {% endblock %}
+    
 </body>
 </html>

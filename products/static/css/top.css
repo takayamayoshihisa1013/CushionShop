@@ -10,7 +10,6 @@ section {
     padding-left: 19%;
     /* margin: 0 auto; */
     position: relative;
-    background-color: #dcdcdc;
 }
 
 .catchphrase {
@@ -56,6 +55,7 @@ section {
     width: 100%;
     padding-top: 10vh;
     padding-bottom: 5vh;
+    /* background-color: #e6ffff; */
 }
 
 .product_section h1 {

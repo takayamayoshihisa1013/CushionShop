@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+{% block title %}
+<title></title>
+{% endblock %}
+{% block content %}
+<section class="product">
+    <div class="product_img">
+        <div class="top_img">
+            <img src="{% static 'images/products/1.webp' %}" alt="">
+        </div>
+        <div class="sub_img_list">
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+            <div class="sub_img">
+                <img src="{% static 'images/products/1.webp' %}" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="description">
+        <h1 class="product_name">とてもいいクッション</h1>
+        <h2 class="price">1200円</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="color">
+                <input type="radio" name="color" id="red" value="blueviolet">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                <input type="radio" name="color" id="red">
+                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+            </div>
+            
+            <div class="select_size">
+                <input type="radio" name="size" id="S" value="S">
+                <label for="S" class="size_label">S</label>
+                <input type="radio" name="size" id="M" value="M">
+                <label for="M" class="size_label">M</label>
+                <input type="radio" name="size" id="L" value="L">
+                <label for="L" class="size_label">L</label>
+                <input type="radio" name="size" id="L">
+                <label for="L" class="size_label">L</label>
+                <input type="radio" name="size" id="L">
+                <label for="L" class="size_label">L</label>
+                <input type="radio" name="size" id="L">
+                <label for="L" class="size_label">L</label>
+                <input type="radio" name="size" id="L">
+                <label for="L" class="size_label">L</label>
+            </div>
+            <div class="count">
+                <button type="button" class="minus">-</button>
+                <input type="number" id="quantity" value="1" min="1" class="spin_erase" name="count">
+                <button type="button" class="plus">+</button>
+            </div>
+            <button type="submit">カートに入れる</button>
+            <button type="submit">購入へ進む</button>
+        </form>
+        
+        <div class="text">
+            <h3>説明</h3>
+            <p></p>
+        </div>
+        <div class="size">
+
+        </div>
+    </div>
+</section>
+<section class="product_section">
+    <h1>Read more</h1>
+    <div class="row">
+        <div class="product">
+            <a href="">
+                <div class="img">
+                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </a>
+        </div>
+        <div class="product">
+            <a href="">
+                <div class="img">
+                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </a>
+        </div>
+        <div class="product">
+            <a href="">
+                <div class="img">
+                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </a>
+        </div>
+        <div class="product">
+            <a href="">
+                <div class="img">
+                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                </div>
+                <div class="description">
+                    <div class="color">
+
+                    </div>
+                    <h3>クッション</h3>
+                    <p>177000円</p>
+                </div>
+            </a>
+        </div>
+        
+
+    </div>
+</section>
+{% endblock %}
+{% block javascript %}
+    <script src="{% static 'js/product.js' %}"></script>
+{% endblock %}

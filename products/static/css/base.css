@@ -10,6 +10,8 @@ body {
     "Hiragino Sans",
     "Meiryo",
     sans-serif;
+    background-color: #ffffe0;
+
 }
 
 header {
@@ -41,4 +43,9 @@ header nav p {
     /* width: 5vw; */
     line-height: 6vh;
     font-size: 2.3vmin;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

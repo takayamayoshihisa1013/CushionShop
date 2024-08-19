@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{%static 'css/new_product.css' %}">
+{% endblock %}
+{% block title %}
+
+{% endblock %}
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <h1>商品情報入力フォーム</h1>
+    <div class="name">
+        <h2>商品名</h2>
+        <input type="text" name="name">
+    </div>
+    <div class="price">
+        <h2>値段</h2>
+        <input type="number" name="price">
+    </div>
+    <div class="color">
+        <h2>色</h2>
+        <input type="color" name="color">
+    </div>
+    <div class="size">
+        <h2>サイズ</h2>
+        <div class="size_input">
+            <input type="text" name="size_name">
+            <input type="number" name="size_x">×<input type="number" name="size_y" id="">
+        </div>
+    </div>
+    <button class="add_size" type="button">サイズの追加</button>
+    
+    <div class="top_img">
+        <h2>トップ画像</h2>
+        <input type="file" id="top_img" name="top_img">
+        <label for="top_img">画像の追加</label>
+    </div>
+    <div class="sub_img">
+        <h2>サブ画像</h2>
+        <input type="file" id="sub_img" name="sub_img"><p></p>
+        <label for="sub_img">画像を入力</label>
+        
+        
+    </div>
+    <button class="add_img" type="button">画像の追加</button>
+    <button type="submit">登録</button>
+</form>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/new_product.js' %}"></script>
+{% endblock %}

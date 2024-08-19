@@ -22,16 +22,18 @@
         <h1>New Product</h1>
         <div class="row">
             <div class="product">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
+                <a href="/product/aaa">
+                    <div class="img">
+                        <img src="{% static 'images/products/1.webp' %}" alt="">
                     </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
+                    <div class="description">
+                        <div class="color">
+
+                        </div>
+                        <h3>クッション</h3>
+                        <p>177000円</p>
+                    </div>
+                </a>
             </div>
             <div class="product">
                 <div class="img">
@@ -101,4 +103,9 @@
             </div>
         </div>
     </section>
+    {% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    {% endblock %}
 {% endblock %}
