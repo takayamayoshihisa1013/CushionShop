@@ -22,3 +22,5 @@ class image(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=100)
+    
+cllllll
