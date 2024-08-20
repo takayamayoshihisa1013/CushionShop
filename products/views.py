@@ -1,36 +1,88 @@
 from django.shortcuts import render
+from .models import Product, Size, Image, Color
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def top(request):
-    return render(request, "top.html")
+    
+    new_product_data = Product.objects.prefetch_related("color_set", "size_set", "image_set").order_by("-id")
+    
+    
+    
+    return render(request, "top.html", {"new_product_data":new_product_data})
 
 def product_list(request):
-    
-    return render(request, "product_list.html")
+    products = Product.objects.all().prefetch_related("color_set", "size_set", "image_set").order_by("id")
+    return render(request, "product_list.html", {"products":products})
 
 def product(request, id):
     
+    product_data = Product.objects.prefetch_related("color_set", "size_set", "image_set").get(id=id)
+    # print(product_data.image_set.all(), "product")
     if request.method == "POST":
         color = request.POST.get("color")
         size = request.POST.get("size", "")
         count = request.POST.get("count")
-        print(id, color, size, count)
+        # print(id, color, size, count)
     
-    return render(request, "product.html")
+    return render(request, "product.html", {"product_data":product_data})
 
 def new_product(request):
     
     if request.method == "POST":
         product_name = request.POST.get("name")
         price = request.POST.get("price")
-        color = request.POST.get("color")
+        colors = request.POST.getlist("color")
+        stock = request.POST.get("stock")
+        description = request.POST.get("description")
         size_name = request.POST.getlist("size_name")
         size_x = request.POST.getlist("size_x")
         size_y = request.POST.getlist("size_y")
-        top_img = request.POST.get("top_img")
-        sub_img_li = request.POST.getlist("sub_img")
+        top_img = request.FILES.get("top_img")
+        sub_img_li = request.FILES.getlist("sub_img")
+        product_type = request.POST.get("product_type")
         
-        print(product_name, price, color, size_name, size_x, size_y, top_img, sub_img_li)
+        print(product_name, price, colors, description, size_name, size_x, size_y, top_img, sub_img_li, product_type)
+        
+        # 画像ファイルの保存先ディレクトリ
+        image_directory = os.path.join(settings.BASE_DIR, 'products', 'static', "images", 'product_images')
+        
+        # ディレクトリが存在しない場合、作成する
+        if not os.path.exists(image_directory):
+            os.makedirs(image_directory)
+        
+        # FileSystemStorageを使ってファイルを保存
+        fs = FileSystemStorage(location=image_directory)
+        
+        if top_img:
+            top_img_name = fs.save(top_img.name, top_img)
+        else:
+            top_img_name = None
+            
+        sub_img_names = []
+        for sub_img in sub_img_li:
+            sub_img_name = fs.save(sub_img.name, sub_img)
+            sub_img_names.append(sub_img_name)
+        
+        new_product = Product(
+            name = product_name,
+            description = description,
+            price = price,
+            stock = stock,
+            top_img = top_img_name,
+            product_type = product_type
+        )
+        
+        new_product.save()
+        
+        product_id = new_product
+        
+        colors = [Color(product = product_id, color = color) for color in colors]
+        
+        if colors:
+            Color.objects.bulk_create(colors)
         
         size_group = []
         for i in range(len(size_name)):
@@ -39,9 +91,23 @@ def new_product(request):
             size.append(size_x[i])
             size.append(size_y[i])
             size_group.append(size)
+            new_size = Size(
+                product = product_id,
+                size_name = size_name[i],
+                size_x = size_x[i],
+                size_y = size_y[i]
+            )
+            
+            new_size.save()
         
-        # size = size_name + size_x + size_y
+        sub_images = [Image(product=product_id, image=sub_img_name) for sub_img_name in sub_img_names]
         
-        print(size_group)
+        if sub_images:
+            Image.objects.bulk_create(sub_images)
+        
+        
+        
+        
+        
     
     return render(request, "new_product.html")

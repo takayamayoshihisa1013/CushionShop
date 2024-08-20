@@ -54,6 +54,19 @@
     margin-left: 2vw;
 }
 
+.description .product_name {
+    font-size: 3vmin;
+}
+
+.description .price {
+    font-size: 2.8vmin;
+    color: red;
+}
+
+.description h3 {
+
+}
+
 .description .color {
     display: flex;
     justify-content: flex-start;
@@ -69,7 +82,7 @@
     text-align: center;
     line-height: 4vh;
     margin-left: 6%;
-    margin-top: 2vh;
+    /* margin-top: 2vh; */
 }
 
 .color_label:nth-of-type(6n+1) {
@@ -80,7 +93,7 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    margin-top: 3vh;
+    /* margin-top: 3vh; */
     width: 60%;
 }
 
@@ -92,7 +105,6 @@
     text-align: center;
     line-height: 4vh;
     margin-left: 6%;
-    margin-top: 2vh;
 }
 
 .select_size .size_label:nth-of-type(6n+1) {

@@ -20,58 +20,34 @@
     </section>
     <section class="product_section">
         <h1>New Product</h1>
-        <div class="row">
-            <div class="product">
-                <a href="/product/aaa">
-                    <div class="img">
-                        <img src="{% static 'images/products/1.webp' %}" alt="">
-                    </div>
-                    <div class="description">
-                        <div class="color">
-
+        {% for product in new_product_data %}
+            {% if forloop.counter0|divisibleby:"4" %}
+                <div class="row">
+            {% endif %}
+                <div class="product">
+                    <a href="/product/{{ product.id }}">
+                        <div class="img">
+                            <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
                         </div>
-                        <h3>クッション</h3>
-                        <p>177000円</p>
-                    </div>
-                </a>
-            </div>
-            <div class="product">
-                <div class="img">
-                    <img src="" alt="">
+                        <div class="description">
+                            <div class="color">
+                                {% for color in product.color_set.all %}
+                                    <p style="background-color: {{ color.color }};"></p>
+                                {% endfor %}
+                            </div>
+                            <h3>{{ product.name }}</h3>
+                            <p>{{ product.price }}円</p>
+                        </div>
+                    </a>
                 </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
+                
+            {% if forloop.counter0|divisibleby:"3" and not forloop.first  %}
                 </div>
-            </div>
-            <div class="product">
-                <div class="img">
-                    <img src="" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </div>
-            <div class="product">
-                <div class="img">
-                    <img src="" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </div>
-        </div>
+            {% endif %}
+            {% if forloop.last and not forloop.counter0|divisibleby:"3" %}
+                </div>  <!-- Close the last row if not already closed -->
+            {% endif %}
+        {% endfor %}
         <button><a href="">Show more</a></button>
     </section>
     <section class="category">

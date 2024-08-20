@@ -29,3 +29,11 @@ size_button.forEach(size => {
     })
     
 });
+
+const sub_imgs = document.querySelectorAll(".sub_img img");
+
+sub_imgs.forEach(img => {
+    img.addEventListener("click", function() {
+        document.querySelector(".top_img img").src = this.src
+    })
+})

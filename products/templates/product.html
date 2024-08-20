@@ -10,68 +10,37 @@
 <section class="product">
     <div class="product_img">
         <div class="top_img">
-            <img src="{% static 'images/products/1.webp' %}" alt="">
+            <img src="{% static 'images/product_images/' %}{{ product_data.top_img }}" alt="">
         </div>
         <div class="sub_img_list">
             <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
+                <img src="{% static 'images/product_images/' %}{{ product_data.top_img }}" alt="">
             </div>
-            <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
-            </div>
-            <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
-            </div>
-            <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
-            </div>
-            <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
-            </div>
-            <div class="sub_img">
-                <img src="{% static 'images/products/1.webp' %}" alt="">
-            </div>
+            {% for image in product_data.image_set.all %}
+                <div class="sub_img">
+                    <img src="{% static 'images/product_images/' %}{{ image.image }}" alt="">
+                </div>
+            {% endfor %}
         </div>
     </div>
     <div class="description">
-        <h1 class="product_name">とてもいいクッション</h1>
-        <h2 class="price">1200円</h2>
+        <h1 class="product_name">{{ product_data.name }}</h1>
+        <h2 class="price">{{ product_data.price }}円</h2>
         <form method="post">
             {% csrf_token %}
+            <h3>色</h3>
             <div class="color">
-                <input type="radio" name="color" id="red" value="blueviolet">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
-                <input type="radio" name="color" id="red">
-                <label for="red" style="background-color: blueviolet;" class="color_label"></label>
+                {% for color in product_data.color_set.all %}
+                    <input type="radio" name="color" id="{{ color.color }}" value="{{ color.color }}">
+                    <label for="{{ color.color }}" style="background-color: {{ color.color }};" class="color_label"></label>
+                {% endfor %}
             </div>
-            
+            <h3>サイズ</h3>
             <div class="select_size">
-                <input type="radio" name="size" id="S" value="S">
-                <label for="S" class="size_label">S</label>
-                <input type="radio" name="size" id="M" value="M">
-                <label for="M" class="size_label">M</label>
-                <input type="radio" name="size" id="L" value="L">
-                <label for="L" class="size_label">L</label>
-                <input type="radio" name="size" id="L">
-                <label for="L" class="size_label">L</label>
-                <input type="radio" name="size" id="L">
-                <label for="L" class="size_label">L</label>
-                <input type="radio" name="size" id="L">
-                <label for="L" class="size_label">L</label>
-                <input type="radio" name="size" id="L">
-                <label for="L" class="size_label">L</label>
+                {% for size in product_data.size_set.all %}
+                    <input type="radio" name="size" id="{{ size.size_name }}" value="{{ size.size_name }}">
+                    <label for="{{ size.size_name }}" class="size_label">{{ size.size_name }}</label>
+                {% endfor %}
             </div>
             <div class="count">
                 <button type="button" class="minus">-</button>
@@ -84,7 +53,7 @@
         
         <div class="text">
             <h3>説明</h3>
-            <p></p>
+            <p>{{ product_data.description }}</p>
         </div>
         <div class="size">
 

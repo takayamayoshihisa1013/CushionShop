@@ -7,7 +7,7 @@
 
 {% endblock %}
 {% block content %}
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <h1>商品情報入力フォーム</h1>
     <div class="name">
@@ -22,6 +22,16 @@
         <h2>色</h2>
         <input type="color" name="color">
     </div>
+    <button type="button" class="add_color">色の追加</button>
+    <div class="product_type">
+        <h2>商品のタイプ</h2>
+        <input type="radio" name="product_type" id="Plain_color" value="Plain_color">
+        <label for="Plain_color">無地</label>
+        <input type="radio" name="product_type" id="patterned" value="patterned">
+        <label for="patterned">模様あり</label>
+        <input type="radio" name="product_type" id="character" value="character">
+        <label for="character">キャラクター</label>
+    </div>
     <div class="size">
         <h2>サイズ</h2>
         <div class="size_input">
@@ -30,16 +40,27 @@
         </div>
     </div>
     <button class="add_size" type="button">サイズの追加</button>
-    
+    <div class="description">
+        <h2>商品の詳細</h2>
+        <textarea name="description" id="" class="textarea">
+
+        </textarea>
+    </div>
+    <div class="stock">
+        <h2>在庫数</h2>
+        <input type="number" name="stock">
+    </div>
     <div class="top_img">
         <h2>トップ画像</h2>
         <input type="file" id="top_img" name="top_img">
-        <label for="top_img">画像の追加</label>
+        <label for="top_img" class="file-input-label">画像の追加</label>
+        <p id="file-name">選択されたファイルが表示されます</p>
     </div>
     <div class="sub_img">
         <h2>サブ画像</h2>
-        <input type="file" id="sub_img" name="sub_img"><p></p>
-        <label for="sub_img">画像を入力</label>
+        <input type="file" id="sub_img" name="sub_img" >
+        <label class="file-input-label" for="sub_img">画像を入力</label>
+        <p id="sub-file-name">選択されたファイルが表示されます</p>
         
         
     </div>

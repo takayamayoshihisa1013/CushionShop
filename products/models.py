@@ -9,16 +9,22 @@ class Product(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     stock = models.IntegerField()
-    color = models.CharField(max_length=10)
     top_img = models.CharField(max_length=100)
+    product_type = models.CharField(max_length=10, default="DEFAULT_TYPE")
+
+class Color(models.Model):
+    id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.CharField(max_length=10)
 
 class Size(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size_name = models.CharField(max_length=10)
-    size = models.IntegerField()
+    size_x = models.IntegerField(default=0)
+    size_y = models.IntegerField(default=0)
 
-class image(models.Model):
+class Image(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=100)
