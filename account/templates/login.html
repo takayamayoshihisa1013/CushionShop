@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="site-name">SoftNest</div>
+        <h1>ログイン</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="メールアドレス" required>
+            <input type="password" name="password" placeholder="パスワード" required>
+            <button type="submit">ログイン</button>
+        </form>
+        <a href="/user/sign_up/" class="signup-link">アカウントを作成</a>
+    </div>
+</body>
+</html>

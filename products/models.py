@@ -1,5 +1,10 @@
 from django.db import models
 import uuid
+from datetime import datetime
+from account.models import User
+
+def date_time():
+    return datetime.now()
 
 # Create your models here.
 
@@ -29,3 +34,15 @@ class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.CharField(max_length=100)
     
+
+# Create your models here.
+
+
+class Kart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    color = models.CharField(max_length=10)
+    count = models.IntegerField()
+    image = models.CharField(max_length=100)
+    time = models.DateTimeField(default=date_time)

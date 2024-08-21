@@ -26,19 +26,19 @@
     <div class="description">
         <h1 class="product_name">{{ product_data.name }}</h1>
         <h2 class="price">{{ product_data.price }}円</h2>
-        <form method="post">
+        <form method="post" novalidate>
             {% csrf_token %}
             <h3>色</h3>
             <div class="color">
                 {% for color in product_data.color_set.all %}
-                    <input type="radio" name="color" id="{{ color.color }}" value="{{ color.color }}">
+                    <input type="radio" name="color" id="{{ color.color }}" value="{{ color.color }}" required>
                     <label for="{{ color.color }}" style="background-color: {{ color.color }};" class="color_label"></label>
                 {% endfor %}
             </div>
             <h3>サイズ</h3>
             <div class="select_size">
                 {% for size in product_data.size_set.all %}
-                    <input type="radio" name="size" id="{{ size.size_name }}" value="{{ size.size_name }}">
+                    <input type="radio" name="size" id="{{ size.size_name }}" value="{{ size.size_name }}" required>
                     <label for="{{ size.size_name }}" class="size_label">{{ size.size_name }}</label>
                 {% endfor %}
             </div>
@@ -47,8 +47,8 @@
                 <input type="number" id="quantity" value="1" min="1" class="spin_erase" name="count">
                 <button type="button" class="plus">+</button>
             </div>
-            <button type="submit">カートに入れる</button>
-            <button type="submit">購入へ進む</button>
+            <button type="submit" value="kart" name="submit">カートに入れる</button>
+            <button type="submit" value="buy" name="submit">購入へ進む</button>
         </form>
         
         <div class="text">

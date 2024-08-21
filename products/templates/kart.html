@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/kart.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>カート</title>
+{% endblock %}
+
+{% block content %}
+<div class="cart-page">
+    {% for product in kart_data %}
+        <div class="cart-item">
+            <img src="{% static 'images/product_images/' %}{{ product.image }}" alt="Cushion Image" class="product-image">
+            <div class="product-details">
+                <h2 class="product-name">{{ product.product.name }}</h2>
+                <p class="product-color">Color: <span class="color-swatch" style="background-color: {{ product.color }};"></span></p>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">−</button>
+                    <input type="number" class="quantity-input" value="{{ product.count }}" min="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+            </div>
+            <p class="product-price">{{ product.product.price|multiply:product.count }}円</p>
+        </div>
+    {% endfor %}
+    <!-- 他の商品も同様に追加 -->
+</div>
+{% endblock %}

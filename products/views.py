@@ -1,31 +1,64 @@
-from django.shortcuts import render
-from .models import Product, Size, Image, Color
+from django.shortcuts import render, redirect
+from .models import Product, Size, Image, Color, Kart
+from account.models import User
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+import uuid
 
 # Create your views here.
 def top(request):
     
     new_product_data = Product.objects.prefetch_related("color_set", "size_set", "image_set").order_by("-id")
-    
-    
+    # print(request.session["user_id"])
+    # print(request.session["product_list"])
+    if "user_id" in request.session:
+        print(request.session["user_id"])
+    else:
+        print("ない")
     
     return render(request, "top.html", {"new_product_data":new_product_data})
 
 def product_list(request):
     products = Product.objects.all().prefetch_related("color_set", "size_set", "image_set").order_by("id")
+    request.session["last_page"] = request.build_absolute_uri()
     return render(request, "product_list.html", {"products":products})
 
 def product(request, id):
-    
+    print(request.session)
+    request.session["last_page"] = request.build_absolute_uri()
+    if "user_id" not in request.session:
+        return redirect("/user/login/")
     product_data = Product.objects.prefetch_related("color_set", "size_set", "image_set").get(id=id)
     # print(product_data.image_set.all(), "product")
     if request.method == "POST":
         color = request.POST.get("color")
         size = request.POST.get("size", "")
         count = request.POST.get("count")
-        # print(id, color, size, count)
+        print(id, color, size, count)
+        user_data = User.objects.get(id = request.session["user_id"])
+        if request.POST.get("submit") == "kart":
+            print("kart")
+            new_kart = Kart(
+                product = product_data,
+                user_id = user_data,
+                color = color,
+                count = count,
+                image = product_data.top_img
+            )
+            
+            new_kart.save()
+            
+            product_data.stock -= int(count)
+            product_data.save()
+            return redirect(request.session["last_page"])
+            
+        elif request.POST.get("submit") == "buy":
+            print("buy")
+        
+        else:
+            print("error")
+        
     
     return render(request, "product.html", {"product_data":product_data})
 
@@ -111,3 +144,10 @@ def new_product(request):
         
     
     return render(request, "new_product.html")
+
+def kart(request):
+    # user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+    kart_data = Kart.objects.filter(user_id = uuid.UUID(request.session["user_id"]))
+    for product in kart_data:
+        print(product.image)
+    return render(request, "kart.html", {"kart_data":kart_data})

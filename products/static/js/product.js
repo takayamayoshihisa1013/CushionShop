@@ -15,7 +15,6 @@ document.querySelector('.plus').addEventListener('click', function() {
     input.value = value;
 });
 
-
 const size_button = document.querySelectorAll(".size_label");
 
 size_button.forEach(size => {
@@ -24,8 +23,25 @@ size_button.forEach(size => {
         
         size_button.forEach(btn => {
             btn.style.backgroundColor = "";
+            btn.style.color = "#000"
         })
-        this.style.backgroundColor = "red";
+        this.style.backgroundColor = "#000";
+        this.style.color = "#FFFF"
+    })
+    
+});
+
+const color_button = document.querySelectorAll(".color_label");
+
+color_button.forEach(color => {
+    color.addEventListener("click", function() {
+        console.log(this);
+        
+        color_button.forEach(btn => {
+            btn.style.border = "1px solid ";
+        })
+        this.style.border = "1px solid #ff4500";
+        console.log(this);
     })
     
 });
@@ -37,3 +53,25 @@ sub_imgs.forEach(img => {
         document.querySelector(".top_img img").src = this.src
     })
 })
+
+
+document.querySelector('form').addEventListener('submit', function(event) {
+    const colorChecked = document.querySelector('input[name="color"]:checked');
+    const sizeChecked = document.querySelector('input[name="size"]:checked');
+    let valid = true;
+
+    if (!colorChecked) {
+        alert('色を選択してください。');
+        valid = false;
+    }
+
+    if (!sizeChecked) {
+        alert('サイズを選択してください。');
+        valid = false;
+    }
+
+    if (!valid) {
+        event.preventDefault();  // フォーム送信をキャンセル
+    }
+});
+
