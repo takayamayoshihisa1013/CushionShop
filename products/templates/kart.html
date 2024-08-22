@@ -10,22 +10,34 @@
 {% endblock %}
 
 {% block content %}
-<div class="cart-page">
+<form class="cart-page">
+    {% if not kart_data %}
+    <h1 class="none_product">カートに入っている商品はありません。</h1>
+    {% endif %}
     {% for product in kart_data %}
         <div class="cart-item">
             <img src="{% static 'images/product_images/' %}{{ product.image }}" alt="Cushion Image" class="product-image">
             <div class="product-details">
                 <h2 class="product-name">{{ product.product.name }}</h2>
+                <p class="price">値段:{{ product.product.price }}円</p>
                 <p class="product-color">Color: <span class="color-swatch" style="background-color: {{ product.color }};"></span></p>
                 <div class="quantity-selector">
-                    <button class="quantity-btn">−</button>
+                    <button class="quantity-minus" type="button">−</button>
                     <input type="number" class="quantity-input" value="{{ product.count }}" min="1">
-                    <button class="quantity-btn">+</button>
+                    <button class="quantity-plus" type="button">+</button>
                 </div>
             </div>
             <p class="product-price">{{ product.product.price|multiply:product.count }}円</p>
         </div>
     {% endfor %}
     <!-- 他の商品も同様に追加 -->
-</div>
+    <div class="pay">
+        <p>カート内合計金額:<span class="sum_price"></span></p>
+        <button type="submit">レジに進む</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/kart.js' %}"></script>
 {% endblock %}

@@ -6,12 +6,19 @@ body {
   }
   
   .cart-page {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
+    width: 58vw;
+    margin: 50px 30vw 0 auto;
+    padding: 1vh 1vw;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .none_product {
+    color: #666;
+    text-align: center;
+    font-size: 3vmin;
+    font-weight: 300;
   }
   
   .cart-item {
@@ -23,7 +30,7 @@ body {
   }
   
   .product-image {
-    width: 100px;
+    width: 6.5vw;
     height: auto;
     border-radius: 10px;
   }
@@ -34,13 +41,18 @@ body {
   }
   
   .product-name {
-    font-size: 18px;
+    font-size: 2.5vmin;
     color: #333;
     margin: 0 0 10px;
   }
+
+  .price {
+    font-size: 2vmin;
+    color: #666;
+  }
   
   .product-color {
-    font-size: 14px;
+    font-size: 2vmin;
     color: #666;
   }
   
@@ -58,7 +70,7 @@ body {
     align-items: center;
   }
   
-  .quantity-btn {
+  .quantity-minus, .quantity-plus  {
     background-color: #333;
     color: #fff;
     border: none;
@@ -77,11 +89,39 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  .quantity-input::-webkit-inner-spin-button,
+  .quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none!important;
+  margin: 0!important;
+  -moz-appearance:textfield!important;
+  }
   
   .product-price {
-    font-size: 18px;
+    font-size: 2.5vmin;
     color: #333;
     font-weight: bold;
     margin-left: 20px;
   }
   
+  .pay {
+    position: fixed;
+    top: calc(10vh + 50px);
+    right: 2.5vw;
+    width:20vw;
+    padding: 5vh 2.5vw;
+    height: 40vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .pay p {
+
+  }
+
+  .pay button {
+    width: 100%;
+    height: 5vh;
+    display: block;
+    border-radius: 10px;
+  }

@@ -25,7 +25,7 @@
     </div>
     <div class="description">
         <h1 class="product_name">{{ product_data.name }}</h1>
-        <h2 class="price">{{ product_data.price }}円</h2>
+        <h2 class="price">{{ product_data.price }}円{% if product_data.stock <= 0 %}<span class="not_stock">在庫切れ</span>{% endif %}</h2>
         <form method="post" novalidate>
             {% csrf_token %}
             <h3>色</h3>
@@ -47,8 +47,8 @@
                 <input type="number" id="quantity" value="1" min="1" class="spin_erase" name="count">
                 <button type="button" class="plus">+</button>
             </div>
-            <button type="submit" value="kart" name="submit">カートに入れる</button>
-            <button type="submit" value="buy" name="submit">購入へ進む</button>
+            <button {% if product_data.stock > 0 %} type="submit" {% else %} disabled style="cursor: not-allowed;" {% endif %} value="kart" name="submit" >カートに入れる</button>
+            <button {% if product_data.stock > 0 %} type="submit" {% else %} disabled style="cursor: not-allowed;" {% endif %} value="buy" name="submit">購入へ進む</button>
         </form>
         
         <div class="text">

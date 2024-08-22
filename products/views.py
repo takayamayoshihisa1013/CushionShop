@@ -39,15 +39,24 @@ def product(request, id):
         user_data = User.objects.get(id = request.session["user_id"])
         if request.POST.get("submit") == "kart":
             print("kart")
-            new_kart = Kart(
-                product = product_data,
-                user_id = user_data,
-                color = color,
-                count = count,
-                image = product_data.top_img
-            )
             
-            new_kart.save()
+            exist_kart = Kart.objects.filter(user_id = user_data, color = color, product = product_data).first()
+            if exist_kart:
+                print(exist_kart.id, "exist!")
+                exist_kart.count += int(count)
+                exist_kart.save()
+            else:
+                print("カートに存在しないよ")
+            
+                new_kart = Kart(
+                    product = product_data,
+                    user_id = user_data,
+                    color = color,
+                    count = count,
+                    image = product_data.top_img
+                )
+            
+                new_kart.save()
             
             product_data.stock -= int(count)
             product_data.save()
@@ -150,4 +159,7 @@ def kart(request):
     kart_data = Kart.objects.filter(user_id = uuid.UUID(request.session["user_id"]))
     for product in kart_data:
         print(product.image)
+    
+    if not kart_data:
+        print("商品がありません")
     return render(request, "kart.html", {"kart_data":kart_data})
