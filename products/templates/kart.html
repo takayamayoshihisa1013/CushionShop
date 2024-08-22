@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block content %}
-<form class="cart-page">
+<form class="cart-page" method="post">
+    {% csrf_token %}
     {% if not kart_data %}
     <h1 class="none_product">カートに入っている商品はありません。</h1>
     {% endif %}
@@ -23,7 +24,7 @@
                 <p class="product-color">Color: <span class="color-swatch" style="background-color: {{ product.color }};"></span></p>
                 <div class="quantity-selector">
                     <button class="quantity-minus" type="button">−</button>
-                    <input type="number" class="quantity-input" value="{{ product.count }}" min="1">
+                    <input type="number" class="quantity-input" value="{{ product.count }}" min="1" name="{{ product.id }}">
                     <button class="quantity-plus" type="button">+</button>
                 </div>
             </div>

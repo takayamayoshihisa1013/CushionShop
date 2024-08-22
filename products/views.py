@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Size, Image, Color, Kart
+from .models import Product, Size, Image, Color, Kart, Buy
 from account.models import User
 import os
 from django.conf import settings
@@ -156,10 +156,37 @@ def new_product(request):
 
 def kart(request):
     # user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+    
+    if request.method == "POST":
+        print()
+        pay_data = request.POST
+        print(pay_data)
+        for id, count in pay_data.items():
+            # print(id, count)
+            if id != 'csrfmiddlewaretoken':
+                kart_product_data = Kart.objects.get(id = uuid.UUID(id))
+                user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+                print(kart_product_data.product)
+                new_buy = Buy(
+                    product = kart_product_data.product,
+                    user_id = user_data,
+                    color = kart_product_data.color,
+                    count = count,
+                    image = kart_product_data.image,
+                )
+                
+                new_buy.save()
+                kart_product_data.delete()
+                return redirect("/kart/")
+            else:
+                pass
+    
     kart_data = Kart.objects.filter(user_id = uuid.UUID(request.session["user_id"]))
-    for product in kart_data:
-        print(product.image)
+    # for product in kart_data:
+    #     print(product.image)
     
     if not kart_data:
         print("商品がありません")
+    
+    
     return render(request, "kart.html", {"kart_data":kart_data})

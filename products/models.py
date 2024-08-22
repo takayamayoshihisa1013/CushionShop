@@ -46,3 +46,12 @@ class Kart(models.Model):
     count = models.IntegerField()
     image = models.CharField(max_length=100)
     time = models.DateTimeField(default=date_time)
+
+class Buy(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    color = models.CharField(max_length=10)
+    count = models.IntegerField()
+    image = models.CharField(max_length=100)
+    time = models.DateTimeField(default=date_time)
