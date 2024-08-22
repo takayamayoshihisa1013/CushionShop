@@ -44,7 +44,7 @@
             </div>
             <div class="count">
                 <button type="button" class="minus">-</button>
-                <input type="number" id="quantity" value="1" min="1" class="spin_erase" name="count">
+                <input type="number" id="quantity" value="1" min="1" class="spin_erase" name="count"max="{{ product_data.stock }}">
                 <button type="button" class="plus">+</button>
             </div>
             <button {% if product_data.stock > 0 %} type="submit" {% else %} disabled style="cursor: not-allowed;" {% endif %} value="kart" name="submit" >カートに入れる</button>

@@ -9,3 +9,10 @@ def multiply(value, arg):
         return value * arg
     except (ValueError, TypeError):
         return ''
+
+@register.filter
+def add(value, arg):
+    try:
+        return value + arg
+    except (ValueError, TypeError):
+        return ''
