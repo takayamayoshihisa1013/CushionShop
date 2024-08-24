@@ -23,10 +23,20 @@
             {% endfor %}
         </div>
     </div>
-    <div class="description">
+    <div class="buy_description">
         <h1 class="product_name">{{ product_data.name }}</h1>
         <h2 class="price">{{ product_data.price }}円{% if product_data.stock <= 0 %}<span class="not_stock">在庫切れ</span>{% endif %}</h2>
-        <form method="post" novalidate>
+        <form action="/favorite/" method="post">
+            {% csrf_token %}
+            <button type="submit" value="{{product_data.id}}" class="favorite" name="favorite">
+                {% if favorite %}
+                    <i class="fa-solid fa-heart"></i>
+                {% else %}
+                    <i class="fa-regular fa-heart"></i>
+                {% endif %}
+            </button>
+        </form>
+        <form method="post" novalidate class="buy_kart_form">
             {% csrf_token %}
             <h3>色</h3>
             <div class="color">
@@ -61,68 +71,35 @@
     </div>
 </section>
 <section class="product_section">
-    <h1>Read more</h1>
-    <div class="row">
+    {% for product in read_more %}
+    {% if forloop.counter0|divisibleby:"4" %}
+        {% if not forloop.first %}
+            </div>
+        {% endif %}
+        <div class="row">
+    {% endif %}
         <div class="product">
-            <a href="">
+            <a href="/product/{{ product.id }}">
                 <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
+                    <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
                 </div>
                 <div class="description">
                     <div class="color">
-
+                        {% for color in product.color_set.all %}
+                        <p style="background-color: {{ color.color }};"></p>
+                        {% endfor %}
                     </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.price }}円</p>
                 </div>
             </a>
         </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        
-
-    </div>
+    {% endfor %}
 </section>
+
+
+
+
 {% endblock %}
 {% block javascript %}
     <script src="{% static 'js/product.js' %}"></script>

@@ -1,33 +1,49 @@
 from django.shortcuts import render, redirect
-from .models import Product, Size, Image, Color, Kart, Buy
+from .models import Product, Size, Image, Color, Kart, Buy, Favorite, Product_count
 from account.models import User
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import uuid
+from django.db.models import Sum
+
 
 # Create your views here.
 
+def login_check(request):
+    if "user_id" in request.session:
+        login_check = True
+    else:
+        print("ない")
+        login_check =False
+    
+    return login_check
 
 def top(request):
 
     new_product_data = Product.objects.prefetch_related(
         "color_set", "size_set", "image_set").order_by("-id")
+    
+    login_check(request)
     # print(request.session["user_id"])
     # print(request.session["product_list"])
-    if "user_id" in request.session:
-        print(request.session["user_id"])
-    else:
-        print("ない")
+    
+        
 
-    return render(request, "top.html", {"new_product_data": new_product_data})
+    return render(request, "top.html", {"new_product_data": new_product_data, "login_check":login_check(request)})
 
 
 def product_list(request):
+    page = int(request.GET.get("page", "1"))
+    start_id = 4 * (page - 1)
+    end_id = start_id + 4
+    print(page)
     products = Product.objects.all().prefetch_related(
-        "color_set", "size_set", "image_set").order_by("id")
+        "color_set", "size_set", "image_set").order_by("created_at")[start_id:end_id]
     request.session["last_page"] = request.build_absolute_uri()
-    return render(request, "product_list.html", {"products": products})
+    total =  range(1, int((Product.objects.all().count())/ 4) + 2)
+    # print(product_length)
+    return render(request, "product_list.html", {"products": products, "login_check":login_check(request), "total": total})
 
 
 def product(request, id):
@@ -38,12 +54,36 @@ def product(request, id):
     product_data = Product.objects.prefetch_related(
         "color_set", "size_set", "image_set").get(id=id)
     # print(product_data.image_set.all(), "product")
+    user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+    exist_favorite = Favorite.objects.filter(product = product_data, user_id = user_data).first()
+    if exist_favorite:
+        favorite = True
+    else:
+        favorite = False
+    
+    view_count, created = Product_count.objects.get_or_create(product = product_data)
+    if not created:
+        view_count.view_count += 1
+        view_count.save()
+    else:
+        view_count.view_count = 1
+        view_count.save()
+    
+    read_more = Product.objects.all().prefetch_related(
+        "color_set", "size_set", "image_set", "product_counts"
+    ).annotate(
+        total_buy_count=Sum("product_counts__buy_count")
+    ).order_by(
+        "-total_buy_count"
+    )[:16]
+    
+
     if request.method == "POST":
         color = request.POST.get("color")
         size = request.POST.get("size", "")
         count = request.POST.get("count")
         print(id, color, size, count)
-        user_data = User.objects.get(id=request.session["user_id"])
+        # user_data = User.objects.get(id=request.session["user_id"])
         if request.POST.get("submit") == "kart":
             print("kart")
 
@@ -76,7 +116,7 @@ def product(request, id):
         else:
             print("error")
 
-    return render(request, "product.html", {"product_data": product_data})
+    return render(request, "product.html", {"product_data": product_data, "favorite":favorite, "login_check":login_check(request), "read_more":read_more})
 
 
 def new_product(request):
@@ -95,7 +135,7 @@ def new_product(request):
         product_type = request.POST.get("product_type")
 
         print(product_name, price, colors, description, size_name,
-              size_x, size_y, top_img, sub_img_li, product_type)
+            size_x, size_y, top_img, sub_img_li, product_type)
 
         # 画像ファイルの保存先ディレクトリ
         image_directory = os.path.join(
@@ -200,6 +240,17 @@ def kart(request):
                 
                 new_buy.save()
                 kart_product_data.delete()
+                
+                buy_count, created = Product_count.objects.get_or_create(product=product_data)
+
+                if not created:
+                    buy_count.buy_count += count
+                    buy_count.save()
+                else:
+                    buy_count.buy_count = count
+                    buy_count.save()
+
+                
                 return redirect("/kart/")
             else:
                 pass
@@ -212,4 +263,22 @@ def kart(request):
         print("商品がありません")
     
     
-    return render(request, "kart.html", {"kart_data":kart_data})
+    return render(request, "kart.html", {"kart_data":kart_data, "login_check":login_check(request)})
+
+def favorite(request):
+    id = request.POST.get("favorite")
+    print("favorite", id)
+    user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+    product_data = Product.objects.get(id = uuid.UUID(id))
+    exist_favorite = Favorite.objects.filter(product = product_data, user_id = user_data).first()
+    if exist_favorite:
+        exist_favorite.delete()
+    else:
+        new_favorite = Favorite(
+            product = product_data,
+            user_id = user_data
+        )
+        new_favorite.save()
+    
+    return redirect(request.session["last_page"])
+    

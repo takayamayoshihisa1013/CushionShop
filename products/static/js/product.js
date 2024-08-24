@@ -55,7 +55,7 @@ sub_imgs.forEach(img => {
 })
 
 
-document.querySelector('form').addEventListener('submit', function(event) {
+document.querySelector('.buy_kart_form').addEventListener('submit', function(event) {
     const colorChecked = document.querySelector('input[name="color"]:checked');
     const sizeChecked = document.querySelector('input[name="size"]:checked');
     let valid = true;

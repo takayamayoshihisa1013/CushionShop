@@ -16,3 +16,10 @@ def add(value, arg):
         return value + arg
     except (ValueError, TypeError):
         return ''
+
+@register.filter
+def divide(value, arg):
+    try:
+        return int(value / arg)
+    except (ValueError, TypeError):
+        return ''

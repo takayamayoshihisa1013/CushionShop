@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
 {% endblock %}
@@ -8,68 +9,11 @@
 {% endblock %}
 {% block content %}
 <section class="product_section">
-    <!-- <div class="row"> -->
-        <!-- <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div>
-        <div class="product">
-            <a href="">
-                <div class="img">
-                    <img src="{% static 'images/products/1.webp' %}" alt="">
-                </div>
-                <div class="description">
-                    <div class="color">
-
-                    </div>
-                    <h3>クッション</h3>
-                    <p>177000円</p>
-                </div>
-            </a>
-        </div> -->
-        
-
-    <!-- </div> -->
     {% for product in products %}
     {% if forloop.counter0|divisibleby:"4" %}
+        {% if not forloop.first %}
+            </div>
+        {% endif %}
         <div class="row">
     {% endif %}
         <div class="product">
@@ -88,9 +32,12 @@
                 </div>
             </a>
         </div>
-    {% if forloop.counter0|divisibleby:"3" and not forloop.first %}
-        </div>
-    {% endif %}
     {% endfor %}
 </section>
+    <section class="page">
+        {% for i in total %}
+            <button><a href="/product/?page={{ i }}">{{ i }}</a></button><i class="fa-solid fa-ellipsis"></i>
+        {% endfor %}
+    </section>
+
 {% endblock %}

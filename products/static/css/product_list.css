@@ -64,3 +64,23 @@
 .product .description .color p:nth-child(1) {
     margin-left: 0;
 }
+
+.page {
+    width: 10%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.page button {
+    display: block;
+    width: 25%;
+    height: 5vh;
+    line-height: 5vh;
+}
+
+.page button a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}

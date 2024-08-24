@@ -1,13 +1,15 @@
+
 body {
     font-family: 'Helvetica Neue', sans-serif;
     background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
+    /* margin: 0;
+    padding: 0; */
+    margin-top: 15vh;
   }
   
   .cart-page {
     width: 58vw;
-    margin: 50px 30vw 0 auto;
+    margin: 10vh 30vw 0 auto;
     padding: 1vh 1vw;
     background-color: #ffffff;
     border-radius: 10px;

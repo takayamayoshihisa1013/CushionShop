@@ -16,6 +16,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     top_img = models.CharField(max_length=100)
     product_type = models.CharField(max_length=10, default="DEFAULT_TYPE")
+    created_at = models.DateTimeField(default=date_time)
 
 class Color(models.Model):
     id = models.AutoField(primary_key=True)
@@ -55,3 +56,14 @@ class Buy(models.Model):
     count = models.IntegerField()
     image = models.CharField(max_length=100)
     time = models.DateTimeField(default=date_time)
+
+class Favorite(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
+class Product_count(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_counts")
+    buy_count = models.IntegerField(default=0)
+    view_count = models.IntegerField(default=0)
