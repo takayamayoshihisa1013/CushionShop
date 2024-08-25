@@ -9,6 +9,14 @@
 {% endblock %}
 {% block content %}
 <section class="product_section">
+    <select name="sort" id="sort-select" onchange="location = this.value;">
+        <option value="">並び順を変更する</option>
+        <option value="/product/{% if search %}?search={{ search }}{% elif type %}?type={{ type }}{% else %}?{% endif %}&sort=popular">人気順</option>
+        <option value="/product/{% if search %}?search={{ search }}{% elif type %}?type={{ type }}{% else %}?{% endif %}&sort=new">新しい順</option>
+        <option value="/product/{% if search %}?search={{ search }}{% elif type %}?type={{ type }}{% else %}?{% endif %}&sort=old">古い順</option>
+        <option value="/product/{% if search %}?search={{ search }}{% elif type %}?type={{ type }}{% else %}?{% endif %}&sort=low-price">値段が安い順</option>
+        <option value="/product/{% if search %}?search={{ search }}{% elif type %}?type={{ type }}{% else %}?{% endif %}&sort=high-price">値段が高い順</option>
+    </select>
     {% for product in products %}
     {% if forloop.counter0|divisibleby:"4" %}
         {% if not forloop.first %}
@@ -32,11 +40,18 @@
                 </div>
             </a>
         </div>
+        {% if forloop.last %}
+            </div>
+        {% endif %}
     {% endfor %}
 </section>
     <section class="page">
         {% for i in total %}
-            <button><a href="/product/?page={{ i }}">{{ i }}</a></button><i class="fa-solid fa-ellipsis"></i>
+            {% if favorite %}
+                <button><a href="/favorite_product/?page={{ i }}">{{ i }}</a></button>
+            {% else %}
+                <button><a href="/product/{% if search %}?search={{ search }}&page={{ i }}{% elif type %}?type={{ type }}&page={{ i }}{% else %}?page={{ i }}{% endif %}&sort={{ sort }}" class="button-link">{{ i }}</a></button><i class="fa-solid fa-ellipsis"></i>
+            {% endif %}
         {% endfor %}
     </section>
 

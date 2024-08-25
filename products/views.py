@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import uuid
 from django.db.models import Sum
+import math
 
 
 # Create your views here.
@@ -15,35 +16,83 @@ def login_check(request):
         login_check = True
     else:
         print("ない")
-        login_check =False
-    
+        login_check = False
+
     return login_check
+
 
 def top(request):
 
     new_product_data = Product.objects.prefetch_related(
         "color_set", "size_set", "image_set").order_by("-id")
-    
+
     login_check(request)
     # print(request.session["user_id"])
     # print(request.session["product_list"])
-    
-        
 
-    return render(request, "top.html", {"new_product_data": new_product_data, "login_check":login_check(request)})
+    return render(request, "top.html", {"new_product_data": new_product_data, "login_check": login_check(request)})
 
 
 def product_list(request):
     page = int(request.GET.get("page", "1"))
-    start_id = 4 * (page - 1)
-    end_id = start_id + 4
-    print(page)
-    products = Product.objects.all().prefetch_related(
-        "color_set", "size_set", "image_set").order_by("created_at")[start_id:end_id]
+    search = request.GET.get("search", "")
+    type = request.GET.get("type", "")
+    sort = request.GET.get("sort", "")
+    start_id = 8 * (page - 1)
+    end_id = start_id + 8
+    
+    if sort:
+        if sort =="new":
+            product_sort = "-created_at"
+            
+            print("new")
+        elif sort =="high-price":
+            product_sort = "-price"
+            print("hp")
+        elif sort =="low-price":
+            product_sort  = "price"
+            print("lp")
+        elif sort == "popular":
+            product_sort = "-product_counts__buy_count"
+        else:
+            product_sort = "created_at"
+            print("else")
+    else:
+        product_sort = "created_at"
+    # print(page)
+    
+    if search:
+        products = Product.objects.filter(name__contains=search).prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)[start_id:end_id]
+        count = Product.objects.filter(name__contains=search).prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)
+        add_url = {"search": search}
+    elif type:
+        products = Product.objects.filter(product_type__iexact=type).prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)[start_id:end_id]
+        count = products = Product.objects.filter(product_type__iexact=type).prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)[start_id:end_id]
+        print(type)
+        add_url = {"type": type}
+
+    else:
+        products = Product.objects.all().prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)[start_id:end_id]
+        count = Product.objects.all().prefetch_related(
+            "color_set", "size_set", "image_set").order_by(product_sort)
+        add_url = {}
     request.session["last_page"] = request.build_absolute_uri()
-    total =  range(1, int((Product.objects.all().count())/ 4) + 2)
-    # print(product_length)
-    return render(request, "product_list.html", {"products": products, "login_check":login_check(request), "total": total})
+    total = range(1, math.ceil((count.count()) / 8) + 1)
+    print(total, products.count())
+    context = {
+        "products": products,
+        "login_check": login_check(request), 
+        "total": total,
+        "sort": sort
+        }
+    context.update(add_url)
+    print(context)
+    return render(request, "product_list.html", context)
 
 
 def product(request, id):
@@ -54,21 +103,23 @@ def product(request, id):
     product_data = Product.objects.prefetch_related(
         "color_set", "size_set", "image_set").get(id=id)
     # print(product_data.image_set.all(), "product")
-    user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
-    exist_favorite = Favorite.objects.filter(product = product_data, user_id = user_data).first()
+    user_data = User.objects.get(id=uuid.UUID(request.session["user_id"]))
+    exist_favorite = Favorite.objects.filter(
+        product=product_data, user_id=user_data).first()
     if exist_favorite:
         favorite = True
     else:
         favorite = False
-    
-    view_count, created = Product_count.objects.get_or_create(product = product_data)
+
+    view_count, created = Product_count.objects.get_or_create(
+        product=product_data)
     if not created:
         view_count.view_count += 1
         view_count.save()
     else:
         view_count.view_count = 1
         view_count.save()
-    
+
     read_more = Product.objects.all().prefetch_related(
         "color_set", "size_set", "image_set", "product_counts"
     ).annotate(
@@ -76,7 +127,6 @@ def product(request, id):
     ).order_by(
         "-total_buy_count"
     )[:16]
-    
 
     if request.method == "POST":
         color = request.POST.get("color")
@@ -116,7 +166,7 @@ def product(request, id):
         else:
             print("error")
 
-    return render(request, "product.html", {"product_data": product_data, "favorite":favorite, "login_check":login_check(request), "read_more":read_more})
+    return render(request, "product.html", {"product_data": product_data, "favorite": favorite, "login_check": login_check(request), "read_more": read_more})
 
 
 def new_product(request):
@@ -210,18 +260,20 @@ def kart(request):
         print(pay_data)
         for id, count in pay_data.items():
             # print(id, count)
-            
-            
+
             if id != 'csrfmiddlewaretoken':
                 count = int(count)
-                kart_product_data = Kart.objects.get(id = uuid.UUID(id))
-                user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
+                kart_product_data = Kart.objects.get(id=uuid.UUID(id))
+                user_data = User.objects.get(
+                    id=uuid.UUID(request.session["user_id"]))
                 print(kart_product_data.product)
-                product_data = Product.objects.get(id=kart_product_data.product.id)
+                product_data = Product.objects.get(
+                    id=kart_product_data.product.id)
                 if int(kart_product_data.count) < count:
                     # カートテーブルに登録されている個数より多かったらさらに商品テーブルからストックを減らす
                     print("多い", count - int(kart_product_data.count))
-                    product_data.stock -= (count - int(kart_product_data.count))
+                    product_data.stock -= (count -
+                                           int(kart_product_data.count))
                     product_data.save()
                 elif int(kart_product_data.count) > count:
                     print("低い")
@@ -229,19 +281,20 @@ def kart(request):
                     product_data.save()
                 else:
                     pass
-                
+
                 new_buy = Buy(
-                    product = kart_product_data.product,
-                    user_id = user_data,
-                    color = kart_product_data.color,
-                    count = count,
-                    image = kart_product_data.image,
+                    product=kart_product_data.product,
+                    user_id=user_data,
+                    color=kart_product_data.color,
+                    count=count,
+                    image=kart_product_data.image,
                 )
-                
+
                 new_buy.save()
                 kart_product_data.delete()
-                
-                buy_count, created = Product_count.objects.get_or_create(product=product_data)
+
+                buy_count, created = Product_count.objects.get_or_create(
+                    product=product_data)
 
                 if not created:
                     buy_count.buy_count += count
@@ -250,35 +303,54 @@ def kart(request):
                     buy_count.buy_count = count
                     buy_count.save()
 
-                
                 return redirect("/kart/")
             else:
                 pass
-    
-    kart_data = Kart.objects.filter(user_id = uuid.UUID(request.session["user_id"]))
+
+    kart_data = Kart.objects.filter(
+        user_id=uuid.UUID(request.session["user_id"]))
     # for product in kart_data:
     #     print(product.image)
-    
+
     if not kart_data:
         print("商品がありません")
-    
-    
-    return render(request, "kart.html", {"kart_data":kart_data, "login_check":login_check(request)})
+
+    return render(request, "kart.html", {"kart_data": kart_data, "login_check": login_check(request)})
+
 
 def favorite(request):
     id = request.POST.get("favorite")
     print("favorite", id)
-    user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
-    product_data = Product.objects.get(id = uuid.UUID(id))
-    exist_favorite = Favorite.objects.filter(product = product_data, user_id = user_data).first()
+    user_data = User.objects.get(id=uuid.UUID(request.session["user_id"]))
+    product_data = Product.objects.get(id=uuid.UUID(id))
+    exist_favorite = Favorite.objects.filter(
+        product=product_data, user_id=user_data).first()
     if exist_favorite:
         exist_favorite.delete()
     else:
         new_favorite = Favorite(
-            product = product_data,
-            user_id = user_data
+            product=product_data,
+            user_id=user_data
         )
         new_favorite.save()
-    
+
     return redirect(request.session["last_page"])
-    
+
+
+def favorite_page(request):
+
+    page = int(request.GET.get("page", "1"))
+    start_id = 8 * (page - 1)
+    end_id = start_id + 8
+    products = Product.objects.filter(favorite__user_id=uuid.UUID(request.session["user_id"])).prefetch_related(
+        "color_set", "size_set", "image_set"
+    ).order_by("created_at")[start_id:end_id]
+    request.session["last_page"] = request.build_absolute_uri()
+    total = range(1, math.ceil((Favorite.objects.all().count()) / 8) + 1)
+    context = {
+        "products": products,
+        "login_check": login_check(request), 
+        "total": total,
+        "favorite":"favorite"
+        }
+    return render(request, "product_list.html", context)

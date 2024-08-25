@@ -22,15 +22,47 @@
         <nav>
             <p><a href="/product/?page=1">Product</a></p>
             <p>About</p>
-            <p><i class="fa-solid fa-magnifying-glass"></i></p>
+            <p class="search_show"><i class="fa-solid fa-magnifying-glass"></i></p>
             {% if login_check %}
                 <p><a href="/kart/"><i class="fa-solid fa-cart-shopping"></i></a></p>
             {% else %}
                 <p><a href="/user/login/"><i class="fa-solid fa-right-to-bracket"></i></a></p>
             {% endif %}
-            <p><i class="fa-solid fa-bars"></i></p>
+            <p class="bar"><i class="fa-solid fa-bars"></i></p>
         </nav>
     </header>
+    <section class="search">
+        <form id="searchForm" action="/product/" method="GET">
+            <input type="text"  id="searchInput" placeholder="検索...">
+            <button type="submit" name="search">検索</button>
+            <button type="button" class="x"><i class="fa-solid fa-xmark"></i></button>
+        </form>
+    </section>
+    <section class="side_section">
+        <div class="side">
+            <h1>SoftNest</h1>
+            <nav>
+                <h2>商品</h2>
+                <ul>
+                    <li><p><a href="/product/">商品一覧</p></a></li>
+                    <li><p><a href="/product/?type=plain_color">無地</a></p></li>
+                    <li><p><a href="/product/?type=patterned">模様あり</p></a></li>
+                    <li><p><a href="/product/?type=character">キャラクター</p></a></li>
+                    <li><p><a href="/favorite_product/">お気に入り商品</p></a></li>
+                </ul>
+                <h2>カート</h2>
+                <ul>
+                    <li><p>カート</p></li>
+                </ul>
+                <h2>購入履歴</h2>
+                <ul>
+                    <li><p>購入履歴</p></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    
+    
     {% block content %}
     {% endblock %}
     <footer>
@@ -65,6 +97,7 @@
             </button>
         </nav>
     </footer>
+    <script src="{% static 'js/base.js' %}"></script>
     {% block javascript %}
 
     {% endblock %}

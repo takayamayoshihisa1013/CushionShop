@@ -4,6 +4,13 @@
     padding-bottom: 5vh;
 }
 
+.product_section select {
+    width: 10vw;
+    height: 5vh;
+    display: block;
+    margin: 0 5vw 0 auto;
+}
+
 .product_section h3 {
     font-size: 2vmin;
     height: 6vh;

@@ -15,7 +15,7 @@ class Product(models.Model):
     price = models.IntegerField()
     stock = models.IntegerField()
     top_img = models.CharField(max_length=100)
-    product_type = models.CharField(max_length=10, default="DEFAULT_TYPE")
+    product_type = models.CharField(max_length=11, default="DEFAULT_TYPE")
     created_at = models.DateTimeField(default=date_time)
 
 class Color(models.Model):

@@ -21,58 +21,57 @@
     <section class="product_section">
         <h1>New Product</h1>
         {% for product in new_product_data %}
-            {% if forloop.counter0|divisibleby:"4" %}
-                <div class="row">
-            {% endif %}
-                <div class="product">
-                    <a href="/product/{{ product.id }}">
-                        <div class="img">
-                            <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
-                        </div>
-                        <div class="description">
-                            <div class="color">
-                                {% for color in product.color_set.all %}
-                                    <p style="background-color: {{ color.color }};"></p>
-                                {% endfor %}
-                            </div>
-                            <h3>{{ product.name }}</h3>
-                            <p>{{ product.price }}円</p>
-                        </div>
-                    </a>
-                </div>
-                
-            {% if forloop.counter0|divisibleby:"3" and not forloop.first  %}
+        {% if forloop.counter0|divisibleby:"4" %}
+            {% if not forloop.first %}
                 </div>
             {% endif %}
-            {% if forloop.last and not forloop.counter0|divisibleby:"3" %}
-                </div>  <!-- Close the last row if not already closed -->
+            <div class="row">
+        {% endif %}
+            <div class="product">
+                <a href="/product/{{ product.id }}">
+                    <div class="img">
+                        <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
+                    </div>
+                    <div class="description">
+                        <div class="color">
+                            {% for color in product.color_set.all %}
+                            <p style="background-color: {{ color.color }};"></p>
+                            {% endfor %}
+                        </div>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.price }}円</p>
+                    </div>
+                </a>
+            </div>
+            {% if forloop.last %}
+                </div>
             {% endif %}
         {% endfor %}
-        <button><a href="">Show more</a></button>
+        <button class="show_more"><a href="">Show more</a></button>
     </section>
     <section class="category">
         <h1>Category</h1>
         <div class="all">
-            <a href="">
+            <a href="/product/">
                 <img src="{% static 'images/category/all.jpg' %}" alt="">
                 <p>All Product</p>
             </a>
         </div>
         <div class="category2">
             <div class="">
-                <a href="">
+                <a href="/product/?type=plain_color">
                     <img src="{% static 'images/category/muzi.webp' %}" alt="">
                     <p>Plain color</p>
                 </a>
             </div>
             <div class="">
-                <a href="">
+                <a href="/product/?type=patterned">
                     <img src="{% static 'images/category/patterned.webp' %}" alt="">
                     <p>patterned</p>
                 </a>
             </div>
             <div class="">
-                <a href="">
+                <a href="/product/?type=character">
                     <img src="{% static 'images/category/char2.webp' %}" alt="">
                     <p>character</p>
                 </a>
