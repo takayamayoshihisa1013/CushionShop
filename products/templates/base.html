@@ -44,19 +44,19 @@
             <nav>
                 <h2>商品</h2>
                 <ul>
-                    <li><p><a href="/product/">商品一覧</p></a></li>
-                    <li><p><a href="/product/?type=plain_color">無地</a></p></li>
-                    <li><p><a href="/product/?type=patterned">模様あり</p></a></li>
-                    <li><p><a href="/product/?type=character">キャラクター</p></a></li>
-                    <li><p><a href="/favorite_product/">お気に入り商品</p></a></li>
+                    <li><a href="/product/"><p>商品一覧</p></a></li>
+                    <li><a href="/product/?type=plain_color"><p>無地</p></a></li>
+                    <li><a href="/product/?type=patterned"><p>模様あり</p></a></li>
+                    <li><a href="/product/?type=character"><p>キャラクター</p></a></li>
+                    <li><a href="/favorite_product/"><p>お気に入り商品</p></a></li>
                 </ul>
                 <h2>カート</h2>
                 <ul>
-                    <li><p>カート</p></li>
+                    <li><a href="/kart/"><p>カート</p></a></li>
                 </ul>
                 <h2>購入履歴</h2>
                 <ul>
-                    <li><p>購入履歴</p></li>
+                    <li><a href="{% url 'purchase_history' %}"><p>購入履歴</p></a></li>
                 </ul>
             </nav>
         </div>
@@ -82,18 +82,19 @@
             
             <ul>
                 <h3>商品・カテゴリ別</h3>
-                <li>全ての商品</li>
-                <li>無地</li>
-                <li>模様あり</li>
-                <li>キャラクター</li>
+                <li><a href="/product/">全ての商品</a></li>
+                <li><a href="/product/?type=plain_color">無地</a></li>
+                <li><a href="/product/?type=patterned">模様あり</a></li>
+                <li><a href="/product/?type=character">キャラクター</a></li>
             </ul>
             <ul>
                 <h3>カート・履歴</h3>
-                <li>カート</li>
-                <li>履歴</li>
+                <li><a href="/kart/">カート</a></li>
+                <li><a href="{% url 'purchase_history' %}">履歴</a></li>
             </ul>
-            <button>
-                <p>Topへ</p>
+            <button class="top_arrow" onclick="scrollToTop()">
+                <p><i class="fa-solid fa-arrow-up"></i></p>
+                <p>TOP</p>
             </button>
         </nav>
     </footer>

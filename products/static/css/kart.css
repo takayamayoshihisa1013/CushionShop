@@ -14,6 +14,7 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 43vh;
   }
 
   .none_product {
@@ -46,6 +47,9 @@ body {
     font-size: 2.5vmin;
     color: #333;
     margin: 0 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
   }
 
   .price {
@@ -127,3 +131,4 @@ body {
     display: block;
     border-radius: 10px;
   }
+

@@ -94,7 +94,6 @@ a {
     height: 100vh;
     top: 0;
     left: 0;
-    transition: 0.4s;
     position: fixed;
     background-color: none;
     z-index: -1000;
@@ -180,9 +179,15 @@ footer ul {
     height: 100%;
     width: 30%;
 }
+
 footer ul li {
     height: 4vh;
     line-height: 4vh;
+    transition: 0.4s;
+}
+
+footer ul li:hover {
+    background-color: rgba(119,136,153,0.7);
 }
 
 .show_more {
@@ -200,4 +205,27 @@ footer ul li {
     border-radius: 10px;
     background-color: #000;
     color: #FFFF;
+}
+
+.top_arrow {
+    margin-top: 5vh;
+    border: none;
+    height: 7vh;
+    width: 5vw;
+    background-color: #778899;
+    font-size: 2.5vmin;
+    border-radius: 10px;
+    text-align: center;
+    /* padding: 1vh 0; */
+    line-height: 2.5vh;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.top_arrow i {
+    font-size: 4vmin;
+}
+
+.top_arrow:hover {
+    background-color: #FFFF;
 }

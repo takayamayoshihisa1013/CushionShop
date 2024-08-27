@@ -7,7 +7,9 @@ from django.core.files.storage import FileSystemStorage
 import uuid
 from django.db.models import Sum
 import math
-
+from django.db.models.functions import TruncDate
+from collections import defaultdict
+from django.db.models.functions import TruncDate
 
 # Create your views here.
 
@@ -24,7 +26,7 @@ def login_check(request):
 def top(request):
 
     new_product_data = Product.objects.prefetch_related(
-        "color_set", "size_set", "image_set").order_by("-id")
+        "color_set", "size_set", "image_set").order_by("-created_at")
 
     login_check(request)
     # print(request.session["user_id"])
@@ -253,7 +255,9 @@ def new_product(request):
 
 def kart(request):
     # user_data = User.objects.get(id = uuid.UUID(request.session["user_id"]))
-
+    request.session["last_page"] = request.build_absolute_uri()
+    if "user_id" not in request.session:
+        return redirect("/user/login/")
     if request.method == "POST":
         print()
         pay_data = request.POST
@@ -319,6 +323,7 @@ def kart(request):
 
 
 def favorite(request):
+    
     id = request.POST.get("favorite")
     print("favorite", id)
     user_data = User.objects.get(id=uuid.UUID(request.session["user_id"]))
@@ -333,12 +338,12 @@ def favorite(request):
             user_id=user_data
         )
         new_favorite.save()
-
     return redirect(request.session["last_page"])
 
-
 def favorite_page(request):
-
+    request.session["last_page"] = request.build_absolute_uri()
+    if "user_id" not in request.session:
+        return redirect("/user/login/")
     page = int(request.GET.get("page", "1"))
     start_id = 8 * (page - 1)
     end_id = start_id + 8
@@ -349,8 +354,29 @@ def favorite_page(request):
     total = range(1, math.ceil((Favorite.objects.all().count()) / 8) + 1)
     context = {
         "products": products,
-        "login_check": login_check(request), 
+        "login_check": login_check(request),
         "total": total,
         "favorite":"favorite"
         }
     return render(request, "product_list.html", context)
+
+
+
+def history(request):
+    request.session["last_page"] = request.build_absolute_uri()
+    if "user_id" not in request.session:
+        return redirect("/user/login/")
+    history_data = Buy.objects.filter(user_id=uuid.UUID(request.session["user_id"])).annotate(date=TruncDate("time")).order_by("-time")
+    
+    grouped_history = defaultdict(list)
+    for history in history_data:
+        grouped_history[history.time.date()].append(history)
+    
+    # print(grouped_history)
+    
+    for date, histories in grouped_history.items():
+        # print(date)
+        for history in histories:
+            print(history.image)
+    
+    return render(request, "history.html", {"grouped_history": grouped_history.items(), "login_check": login_check(request)})

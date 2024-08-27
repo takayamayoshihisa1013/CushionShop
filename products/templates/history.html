@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/history.css' %}">
+{% endblock %}
+{% block title %}
+<title>購入履歴</title>
+{% endblock %}
+{% block content %}
+<section class="history_section">
+    {% for date, histories in grouped_history %}
+        <h2 class="buy_date">{{ date|date:'Y-m-d' }}</h2>
+        <div class="history">
+            
+            {% for history in histories %}
+                <div class="product">
+                    <div class="img">
+                        <img src="{% static 'images/product_images/' %}{{ history.image }}" alt="">
+                    </div>
+                    <div class="description">
+                        <div class="product_description">
+                            <h3>{{ history.product.name }}</h3>
+                            <p>値段:{{ history.product.price }}</p>
+                            <p>色:<span class="color" style="background-color:{{ history.color }} ;"></span></p>
+                            <p>個数:{{ history.count }}</p>
+                        </div>
+                        <div>
+                            <h3 class="sum-price">合計:{{ history.product.price|multiply:history.count }}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endfor %}
+        
+</section>
+{% endblock %}
+{% block javascript %}
+    
+{% endblock %}

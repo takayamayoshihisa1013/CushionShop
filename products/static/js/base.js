@@ -12,7 +12,9 @@ document.addEventListener("click", function(event) {
     if (!side.contains(event.target) && !bar.contains(event.target)) {
         side.style.marginRight = "-20vw";
         side_section.style.backgroundColor = "rgba(0,0,0,0)";
-        side_section.style.zIndex = "-10000";
+        setTimeout(function() {
+            side_section.style.zIndex = "-10000";
+        }, 400)
     }
 });
 
@@ -47,3 +49,10 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
         window.location.href = `/product/?search=${encodeURIComponent(formattedSearch)}`;
     }
 });
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // スムーズにスクロール
+    });
+}
