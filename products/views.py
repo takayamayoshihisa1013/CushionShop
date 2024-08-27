@@ -26,7 +26,7 @@ def login_check(request):
 def top(request):
 
     new_product_data = Product.objects.prefetch_related(
-        "color_set", "size_set", "image_set").order_by("-created_at")
+        "color_set", "size_set", "image_set").order_by("-created_at")[0:16]
 
     login_check(request)
     # print(request.session["user_id"])
@@ -40,8 +40,8 @@ def product_list(request):
     search = request.GET.get("search", "")
     type = request.GET.get("type", "")
     sort = request.GET.get("sort", "")
-    start_id = 8 * (page - 1)
-    end_id = start_id + 8
+    start_id = 16 * (page - 1)
+    end_id = start_id + 16
     
     if sort:
         if sort =="new":
@@ -84,13 +84,14 @@ def product_list(request):
             "color_set", "size_set", "image_set").order_by(product_sort)
         add_url = {}
     request.session["last_page"] = request.build_absolute_uri()
-    total = range(1, math.ceil((count.count()) / 8) + 1)
+    total = range(1, math.ceil((count.count()) / 16) + 1)
     print(total, products.count())
     context = {
         "products": products,
         "login_check": login_check(request), 
         "total": total,
-        "sort": sort
+        "sort": sort,
+        "now_page":page
         }
     context.update(add_url)
     print(context)

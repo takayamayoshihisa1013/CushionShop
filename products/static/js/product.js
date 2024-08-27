@@ -50,8 +50,16 @@ const sub_imgs = document.querySelectorAll(".sub_img img");
 
 sub_imgs.forEach(img => {
     img.addEventListener("click", function() {
-        document.querySelector(".top_img img").src = this.src
+        document.querySelector(".top_img img").src = this.src;
+        sub_imgs.forEach(img => {
+        img.style.border = "1px solid #dcdcdc";
+        })
+        this.style.border = "1px solid orange";
+        
     })
+    
+    
+
 })
 
 

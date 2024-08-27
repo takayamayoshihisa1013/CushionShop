@@ -1,4 +1,4 @@
-form {
+.new_form {
     width: 90%;
     max-width: 600px;
     margin: 20px auto;
@@ -8,22 +8,22 @@ form {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h1 {
+.new_form h1 {
     color: #333;
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-h2 {
+.new_form h2 {
     color: #666;
     font-size: 18px;
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="number"] {
+.new_form input[type="text"],
+.new_form input[type="number"] {
     width: 98%;
     padding: 1%;
     margin-bottom: 10px;
@@ -33,7 +33,7 @@ input[type="number"] {
     display: block;
 }
 
-input[type="color"] {
+.new_form input[type="color"] {
     width: 50px;
     height: 50px;
     padding: 0;
@@ -42,20 +42,20 @@ input[type="color"] {
     flex-wrap: wrap;
 }
 
-.size_input {
+.new_form .size_input {
     display: flex;
     gap: 10px;
 }
 
-.size_input input[type="text"] {
+.new_form .size_input input[type="text"] {
     width: 30%;
 }
 
-.size_input input[type="number"] {
+.new_form .size_input input[type="number"] {
     width: 70%;
 }
 
-button {
+.new_form button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 15px;
@@ -67,11 +67,11 @@ button {
     display: block;
 }
 
-button:hover {
+.new_form button:hover {
     background-color: #45a049;
 }
 
-.file-input-label {
+.new_form .file-input-label {
     display: inline-block;
     padding: 10px 15px;
     background-color: #f0f0f0;
@@ -82,19 +82,19 @@ button:hover {
     margin-top: 5px;
 }
 
-.file-input-label:hover {
+.new_form .file-input-label:hover {
     background-color: #e0e0e0;
 }
 
-input[type="file"] {
+.new_form input[type="file"] {
     display: none;
 }
 
-label {
+.new_form label {
     display: block;
 }
 
-.textarea {
+.new_form .textarea {
     width: 100%;
     height: 15vh;
 }

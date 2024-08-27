@@ -35,6 +35,21 @@
 .product_section .row .product {
     width: 20vw;
     height: 53vh;
+    position: relative;
+}
+
+.product a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.4s;
+}
+
+.product a:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+
 }
 
 .product_section .row .product .img {
@@ -52,6 +67,8 @@
 
 .product .description  {
     height: 15vh;
+    width: 97%;
+    margin: 0 auto;
 }
 
 .product .description .color {
@@ -84,10 +101,22 @@
     width: 25%;
     height: 5vh;
     line-height: 5vh;
+    background-color: #FFFF;
+    transition: 0.4s;
+}
+
+.page button:hover {
+    background-color: #000;
+    color: #FFFF;
 }
 
 .page button a {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+.non-stock {
+    margin-left: 1vw;
+    color: red;
 }

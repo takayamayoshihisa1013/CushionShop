@@ -47,6 +47,7 @@ header nav p {
     /* width: 5vw; */
     line-height: 6vh;
     font-size: 2.3vmin;
+    cursor: pointer;
 }
 
 a {
@@ -97,9 +98,11 @@ a {
     position: fixed;
     background-color: none;
     z-index: -1000;
+    cursor: default;
 }
 
 .side {
+    cursor: default;
     position: fixed;
     right: 0;
     top: 0;
@@ -134,7 +137,9 @@ a {
     line-height: 7vh;
     padding-left: 1vw;
     font-size: 2vmin;
+    transition: 0.4s;
 }
+
 
 .side nav p:hover {
     background-color: rgba(0,0,0,0.3);
@@ -146,7 +151,7 @@ footer {
     display: flex;
     padding: 5vh 10%;
     width: 80%;
-    background-color: #778899;
+    background-color: azure;
     margin-top: 10vh;
 }
 
@@ -167,6 +172,18 @@ footer .left nav {
     margin-top: 2vh;
 }
 
+footer .left nav p {
+    cursor: pointer;
+    width: 18%;
+    text-align: center;
+    transition: 0.4s;
+}
+
+
+footer .left nav p:hover {
+    transform: scale(1.2, 1.2);
+}
+
 footer .right {
     width: 60%;
     margin-left: 20%;
@@ -184,10 +201,12 @@ footer ul li {
     height: 4vh;
     line-height: 4vh;
     transition: 0.4s;
+    padding-left: 0.5vw;
+
 }
 
-footer ul li:hover {
-    background-color: rgba(119,136,153,0.7);
+footer .right ul li:hover {
+    background-color: #899cb3;
 }
 
 .show_more {
@@ -212,11 +231,10 @@ footer ul li:hover {
     border: none;
     height: 7vh;
     width: 5vw;
-    background-color: #778899;
+    background-color: azure;
     font-size: 2.5vmin;
     border-radius: 10px;
     text-align: center;
-    /* padding: 1vh 0; */
     line-height: 2.5vh;
     transition: 0.4s;
     cursor: pointer;
@@ -224,8 +242,9 @@ footer ul li:hover {
 
 .top_arrow i {
     font-size: 4vmin;
+    
 }
 
 .top_arrow:hover {
-    background-color: #FFFF;
+    background-color: #778899;
 }

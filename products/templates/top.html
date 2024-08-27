@@ -28,7 +28,7 @@
             <div class="row">
         {% endif %}
             <div class="product">
-                <a href="/product/{{ product.id }}">
+                <a href="/product/{{ product.id }}"></a>
                     <div class="img">
                         <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
                     </div>
@@ -41,7 +41,7 @@
                         <h3>{{ product.name }}</h3>
                         <p>{{ product.price }}円</p>
                     </div>
-                </a>
+                
             </div>
             {% if forloop.last %}
                 </div>

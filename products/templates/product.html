@@ -7,7 +7,7 @@
 <title></title>
 {% endblock %}
 {% block content %}
-<section class="product">
+<section class="product_data">
     <div class="product_img">
         <div class="top_img">
             <img src="{% static 'images/product_images/' %}{{ product_data.top_img }}" alt="">
@@ -80,7 +80,7 @@
         <div class="row">
     {% endif %}
         <div class="product">
-            <a href="/product/{{ product.id }}">
+            <a href="/product/{{ product.id }}"></a>
                 <div class="img">
                     <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
                 </div>
@@ -93,7 +93,7 @@
                     <h3>{{ product.name }}</h3>
                     <p>{{ product.price }}円</p>
                 </div>
-            </a>
+            
         </div>
     {% endfor %}
 </section>

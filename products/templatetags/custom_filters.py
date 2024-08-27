@@ -23,3 +23,10 @@ def divide(value, arg):
         return int(value / arg)
     except (ValueError, TypeError):
         return ''
+
+@register.filter
+def minus(value, arg):
+    try:
+        return int(value - arg)
+    except (ValueError, TypeError):
+        return ''

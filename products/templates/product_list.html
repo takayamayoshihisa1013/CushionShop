@@ -25,7 +25,7 @@
         <div class="row">
     {% endif %}
         <div class="product">
-            <a href="/product/{{ product.id }}">
+            <a href="/product/{{ product.id }}"></a>
                 <div class="img">
                     <img src="{% static 'images/product_images/' %}{{ product.top_img }}" alt="">
                 </div>
@@ -36,9 +36,9 @@
                         {% endfor %}
                     </div>
                     <h3>{{ product.name }}</h3>
-                    <p>{{ product.price }}円</p>
+                    <p>{{ product.price }}円{% if product.stock <= 0 %}<span class="non-stock">在庫切れ</span>{% endif %}</p>
                 </div>
-            </a>
+            
         </div>
         {% if forloop.last %}
             </div>
@@ -47,10 +47,12 @@
 </section>
     <section class="page">
         {% for i in total %}
-            {% if favorite %}
-                <button><a href="/favorite_product/?page={{ i }}">{{ i }}</a></button>
-            {% else %}
-                <button><a href="/product/{% if search %}?search={{ search }}&page={{ i }}{% elif type %}?type={{ type }}&page={{ i }}{% else %}?page={{ i }}{% endif %}&sort={{ sort }}" class="button-link">{{ i }}</a></button><i class="fa-solid fa-ellipsis"></i>
+            {% if now_page == i or now_page|minus:1 == i or now_page|add:1 == i %}
+                {% if favorite %}
+                    <button><a href="/favorite_product/?page={{ i }}">{{ i }}</a></button>
+                {% else %}
+                    <button><a href="/product/{% if search %}?search={{ search }}&page={{ i }}{% elif type %}?type={{ type }}&page={{ i }}{% else %}?page={{ i }}{% endif %}&sort={{ sort }}" class="button-link">{{ i }}</a></button>
+                {% endif %}
             {% endif %}
         {% endfor %}
     </section>
