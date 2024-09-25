@@ -16,6 +16,7 @@ from django.db.models.functions import TruncDate
 def login_check(request):
     if "user_id" in request.session:
         login_check = True
+        print(request.session["user_id"])
     else:
         print("ない")
         login_check = False
@@ -29,6 +30,8 @@ def top(request):
         "color_set", "size_set", "image_set").order_by("-created_at")[0:16]
 
     login_check(request)
+    
+    
     # print(request.session["user_id"])
     # print(request.session["product_list"])
 
